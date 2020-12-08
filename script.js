@@ -8,11 +8,13 @@ function subtract(num1, num2) {
 }
 
 function multiply(num1, num2) {
+  
   return num1 * num2
 }
 
 
 function divide (num1, num2) {
+  
   return num1 / num2
 
 }
@@ -107,11 +109,25 @@ function runOperator() {
 
   //If the equals button is pressed, run the operate function
   if(event.target.id === "equals") {
-   console.log(operate(operator, Number(memoryValue.join("")), Number(displayValue.join(""))))
-   display.textContent = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
+    let result = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
+   //console.log(operate(operator, Number(memoryValue.join("")), Number(displayValue.join(""))))
+   //display.textContent = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
+
+   
+   console.log("The result is" + result)
+   display.textContent = result;
+   memoryValue = (result + "").split("")
+   console.log(memoryValue)
 
    //clear the array so that when the user presses a key, the number isn't added to the previous number.
   displayValue = [];
+
+  //Get rid of any highlighted buttons
+  functionKeys.forEach(key => {
+    if (key.classList.contains("clicked")){
+      key.classList.remove("clicked")
+    }
+  })
 
 
    
@@ -139,3 +155,8 @@ function runOperator() {
 }
 
 //Bug found - pressing a button then clicking two operators produces an incorrect result. Caused by clear function in runOperator?
+
+/* Enter first number
+Press operator key [first number stored in memory]
+enter second number (no calculation yet)
+press operator key (calculation is done and result stored somewhere and displayed on screen)*/
