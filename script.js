@@ -1,3 +1,26 @@
+
+//Grab main calculator elements
+
+let display = document.querySelector("#display")
+let numpad = document.querySelector("#numpad");
+let functionPad = document.querySelector("#functions");
+let functionKeys = document.querySelectorAll(".functionKey")
+let numbers = document.querySelectorAll(".numberKey");
+
+
+
+//Individual numbers can still be targeted when all keys are grabbed using queryselectorAll
+
+//Add event listeners
+numpad.addEventListener("click", displayScreen)
+functionPad.addEventListener("click", runOperator)
+
+
+let displayValue = []
+let memoryValue = []
+let operator; 
+let result = 0;
+
 //Do I need the individual functions or can they just be part of the operate function e.g. return x*x, x+x...
 function add(num1, num2) {
   return num1 + num2
@@ -27,28 +50,6 @@ function operate(operator, num1, num2) {
     divide(num1, num2)
 
 }
-//Grab main calculator elements
-
-let display = document.querySelector("#display")
-let numpad = document.querySelector("#numpad");
-let functionPad = document.querySelector("#functions");
-let functionKeys = document.querySelectorAll(".functionKey")
-let numbers = document.querySelectorAll(".numberKey");
-
-
-
-//Individual numbers can still be targeted when all keys are grabbed using queryselectorAll
-
-//Add event listeners
-numpad.addEventListener("click", displayScreen)
-functionPad.addEventListener("click", runOperator)
-
-
-let displayValue = []
-let memoryValue = []
-let operator; 
-let result = 0;
-
 
 
 //Next step - create the display function
@@ -88,9 +89,7 @@ function runOperator() {
 
     }
     
-   
-
-    //Store the value that is currently displayed in a memory array
+       //Store the value that is currently displayed in a memory array
     memoryValue = [...displayValue];
     
     //Clear the display array and display screen
