@@ -47,6 +47,8 @@ functionPad.addEventListener("click", runOperator)
 let displayValue = []
 let memoryValue = []
 let operator; 
+let result = 0;
+
 
 
 //Next step - create the display function
@@ -74,6 +76,19 @@ function runOperator() {
   //If an operator button is clicked, save its value in the operator variable
   if(event.target.id === "add" || event.target.id === "subtract" ||event.target.id === "multiply" ||event.target.id === "divide") {
     operator = event.target.id;
+
+    if (result !== 0) {
+      
+      console.log(result)
+
+      result = operate(operator, result, Number(displayValue.join("")))
+      console.log(displayValue)
+      console.log(memoryValue)
+      console.log(result)
+
+    }
+    
+   
 
     //Store the value that is currently displayed in a memory array
     memoryValue = [...displayValue];
@@ -107,17 +122,17 @@ function runOperator() {
     
   }
 
+  //EQUALS
   //If the equals button is pressed, run the operate function
   if(event.target.id === "equals") {
-    let result = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
-   //console.log(operate(operator, Number(memoryValue.join("")), Number(displayValue.join(""))))
-   //display.textContent = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
-
-   
-   console.log("The result is" + result)
+    result = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
+      
+   console.log("The result is: " + result)
    display.textContent = result;
-   memoryValue = (result + "").split("")
+   //memoryValue = (result + "").split("")
+   console.log(displayValue)
    console.log(memoryValue)
+   console.log(result)
 
    //clear the array so that when the user presses a key, the number isn't added to the previous number.
   displayValue = [];
@@ -138,6 +153,7 @@ function runOperator() {
     displayValue = [];
     display.textContent = "";
     memoryValue = [];
+    result = 0;
     console.clear()
     if(numbers[10].classList.contains("decimal")){
       numbers[10].classList.remove("decimal")
@@ -160,3 +176,6 @@ function runOperator() {
 Press operator key [first number stored in memory]
 enter second number (no calculation yet)
 press operator key (calculation is done and result stored somewhere and displayed on screen)*/
+
+
+//Split up the operate section into different functions
