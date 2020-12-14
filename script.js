@@ -13,7 +13,11 @@ let numbers = document.querySelectorAll(".numberKey");
 
 //Add event listeners
 numpad.addEventListener("click", displayScreen)
-functionPad.addEventListener("click", runOperator)
+functionPad.addEventListener("click", operatorFunction)
+functionPad.childNodes[11].addEventListener("click", clearFunction);
+functionPad.childNodes[9].addEventListener("click", equalsFunction);
+console.log(functionPad)
+
 
 
 let displayValue = []
@@ -73,7 +77,7 @@ display.textContent = displayValue.join("")
 }
 
 
-function runOperator() {
+function operatorFunction() {
   //If an operator button is clicked, save its value in the operator variable
   if(event.target.id === "add" || event.target.id === "subtract" ||event.target.id === "multiply" ||event.target.id === "divide") {
     operator = event.target.id;
@@ -120,7 +124,11 @@ function runOperator() {
 }
     
   }
+       
 
+}
+
+function equalsFunction(){
   //EQUALS
   //If the equals button is pressed, run the operate function
   if(event.target.id === "equals") {
@@ -129,9 +137,9 @@ function runOperator() {
    console.log("The result is: " + result)
    display.textContent = result;
    //memoryValue = (result + "").split("")
-   console.log(displayValue)
-   console.log(memoryValue)
-   console.log(result)
+   console.log("Display: " + displayValue)
+   console.log("Memory: " + memoryValue)
+   console.log("result : " + result)
 
    //clear the array so that when the user presses a key, the number isn't added to the previous number.
   displayValue = [];
@@ -146,8 +154,13 @@ function runOperator() {
 
    
   }
-  
-// Activating the clear button. Array needs to be emptied, too.
+}
+
+
+
+function clearFunction() {
+
+  // Activating the clear button. Array needs to be emptied, too.
   if(event.target.id ==="clear") {
     displayValue = [];
     display.textContent = "";
@@ -164,9 +177,6 @@ function runOperator() {
       }
     })
       }
-    
-      
-
 }
 
 //Bug found - pressing a button then clicking two operators produces an incorrect result. Caused by clear function in runOperator?
