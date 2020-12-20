@@ -82,22 +82,21 @@ function operatorFunction() {
   if(event.target.id === "add" || event.target.id === "subtract" ||event.target.id === "multiply" ||event.target.id === "divide") {
     operator = event.target.id;
 
-    if (result !== 0) {
-      
-      console.log(result)
-
-      result = operate(operator, result, Number(displayValue.join("")))
-      console.log(displayValue)
-      console.log(memoryValue)
-      console.log(result)
-
+    if(memoryValue.length === 0) {
+      console.log("Nothing in mem")
     }
+
+    if(memoryValue.length !== 0) {
+      console.log("Something in mem")
+
+      //Try code to say that when something is in memory, run the operator function as normal but save the result in variable and use that in a calculation?
+    }
+
     
        //Store the value that is currently displayed in a memory array
     memoryValue = [...displayValue];
     
     //Clear the display array and display screen
-    display.textContent = "";
     displayValue = [];
 
     // Loop through the operators to identify the one that was clicked. Add the clicked class to it.
@@ -137,9 +136,9 @@ function equalsFunction(){
    console.log("The result is: " + result)
    display.textContent = result;
    //memoryValue = (result + "").split("")
-   console.log("Display: " + displayValue)
+   /*console.log("Display: " + displayValue)
    console.log("Memory: " + memoryValue)
-   console.log("result : " + result)
+   console.log("result : " + result)*/
 
    //clear the array so that when the user presses a key, the number isn't added to the previous number.
   displayValue = [];
@@ -163,7 +162,7 @@ function clearFunction() {
   // Activating the clear button. Array needs to be emptied, too.
   if(event.target.id ==="clear") {
     displayValue = [];
-    display.textContent = "";
+    display.textContent = 0;
     memoryValue = [];
     result = 0;
     console.clear()
