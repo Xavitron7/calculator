@@ -1,0 +1,24 @@
+function operate(num1, num2, operand) {
+    switch (operand) {
+    case '-':
+        return num1 - num2;
+    case '*':
+        return num1 * num2;
+    case '/':
+        return num1 / num2;
+    default:
+        return num1 + num2;
+    }
+}
+
+function calc(expression) {
+    const split = expression.match(/(\d(\.?\d?)+)|([+-/*//])/g);
+    let amount = +split.splice(0, 1)[0];
+
+    while (split.length > 0) {
+        let[operand,next] = split.splice(0, 2)
+        amount = operate(amount, +next, operand)
+    }
+
+    return amount
+}

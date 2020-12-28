@@ -6,6 +6,7 @@ let numpad = document.querySelector("#numpad");
 let functionPad = document.querySelector("#functions");
 let functionKeys = document.querySelectorAll(".functionKey")
 let numbers = document.querySelectorAll(".numberKey");
+let equalsButton = document.querySelector("#equals")
 
 
 
@@ -16,14 +17,17 @@ numpad.addEventListener("click", displayScreen)
 functionPad.addEventListener("click", operatorFunction)
 functionPad.childNodes[11].addEventListener("click", clearFunction);
 functionPad.childNodes[9].addEventListener("click", equalsFunction);
-console.log(functionPad)
 
 
 
 let displayValue = []
 let memoryValue = []
 let operator; 
+let prevOperator;
 let result = 0;
+let resultHistory = []
+let evaluationArray = [null, null, null] //0 = memory, 1 = display, 2 = result
+
 
 //Do I need the individual functions or can they just be part of the operate function e.g. return x*x, x+x...
 function add(num1, num2) {
@@ -48,11 +52,25 @@ function divide (num1, num2) {
 
 function operate(operator, num1, num2) {
 
-    return operator === "add" ? add(num1, num2) :
-    operator === "subtract" ? subtract(num1, num2) :
-    operator === "multiply" ? multiply(num1, num2) :
-    divide(num1, num2)
+    switch (operator) {
+      case "add" :
+        return add(num1, num2);
+        break;
 
+      case "subtract" :
+        return subtract(num1, num2);
+        break;
+
+      case "multiply" :
+        return multiply(num1, num2);
+        break;
+        
+        case "divide" :
+          return divide(num1, num2);
+          break;
+
+      
+    }
 }
 
 
@@ -78,14 +96,11 @@ display.textContent = displayValue.join("")
 
 
 function operatorFunction() {
-  //If there is no previous result, calculate as normal
-
-  if(memoryValue.length === 0) {
-
+console.log("Opening array check" + evaluationArray)
     //Set the operator to the clicked button
     if(event.target.id === "add" || event.target.id === "subtract" ||event.target.id === "multiply" ||event.target.id === "divide") {
     operator = event.target.id;
-    console.log(operator)
+   
 
     //Give the clicked button clicked status
 
@@ -93,54 +108,76 @@ function operatorFunction() {
       item.id == event.target.id ? item.classList.add("clicked") : item.classList.remove("clicked");
     })
 
-    //Move the value on screen into memory
-
-    memoryValue = [...displayValue];
-
-    //Clear the display array but keep prev value on screen
+    //If there's a result, use that result in the new calc by storing it to memory
+    if (evaluationArray[2] !== null) {
+      console.log("prev result")
+      evaluationArray[0] = evaluationArray[2];
+      console.log(evaluationArray)
+      
+      //Clear the display array but keep prev value on screen
     
     displayValue = [];
+    } 
+
+    //If there is no result or final calc but a value in memory, calculate display the interim result on screen
+    else if (evaluationArray[0] !== null) {
+      console.log("Something in memory")
+      //First I want to calculate the value so far
+      evaluationArray[1] = +displayValue.join("")
+      prevOperator = operator;
+      console.log(evaluationArray)
+      console.log(operator, prevOperator)
+      result = operate(prevOperator, evaluationArray[0], evaluationArray[1])
+      display.textContent = result
+      console.log(result)
+      evaluationArray[0] = result
+      console.log(evaluationArray)
 
 
-  }
+      //Clear the display array but keep prev value on screen
+    
+    displayValue = [];
+    } 
 
-}
-//If there is a prev result...
-/*
+
+    //If this is a new calc, just move the value on screen into memory
+
 else {
+      console.log("new calc")
+      console.log(evaluationArray)
+      evaluationArray[0] = +displayValue.join("")
+      //Clear the display array but keep prev value on screen
+    
+    displayValue = [];
+    } 
+   
 
-  result = operate(operator, Number(memoryValue.join("")), Number(displayValue.join(""))) + ""
+    //I think the checks are three tiered: Check for prev result, then memory, then do a normal calc.
+    
 
-  console.log(result)
-  display.textContent = result;
-  displayValue = []
-  console.log(displayValue, "displayed")
+
   
-  memoryValue = [...result.split("")]
-  console.log("memory:", memoryValue, "display", displayValue)
- 
-  
-}*/
-
 
 }
+
+}
+
+
 
 function equalsFunction(){
   //EQUALS
   //If the equals button is pressed, run the operate function
   if(event.target.id === "equals") {
-    result = operate(operator, Number(memoryValue.join("")), Number(displayValue.join("")))
-      
-   console.log("The result is: " + result)
-   display.textContent = result;
-   //memoryValue = (result + "").split("")
-   /*console.log("Display: " + displayValue)
-   console.log("Memory: " + memoryValue)
-   console.log("result : " + result)*/
+    evaluationArray[1] = +displayValue.join("")
+    result = operate(operator, evaluationArray[0], evaluationArray[1])
+    console.log("equals calc")
+    display.textContent = result
 
-   //clear the array so that when the user presses a key, the number isn't added to the previous number.
-  displayValue = [];
+ evaluationArray[2] = result
+  console.log(evaluationArray)
 
+  display.textContent = result
+   
   //Get rid of any highlighted buttons
   functionKeys.forEach(key => {
     if (key.classList.contains("clicked")){
@@ -164,6 +201,10 @@ function clearFunction() {
     memoryValue = [];
     result = 0;
     console.clear()
+    evaluationArray[0] = null;
+    evaluationArray[1] = null;
+    evaluationArray[2] = null;
+    console.log(evaluationArray)
     if(numbers[10].classList.contains("decimal")){
       numbers[10].classList.remove("decimal")
     }
@@ -174,6 +215,7 @@ function clearFunction() {
       }
     })
       }
+
       
 }
 
