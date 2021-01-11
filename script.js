@@ -26,7 +26,7 @@ let operator;
 let prevOperator;
 let result = 0;
 let resultHistory = []
-let evaluationArray = [null, null, null] //0 = memory, 1 = display, 2 = result
+let evaluationArray = [null, null, null, null] //0 = memory, 1 = display, 2 = result, 3 = previous operator
 
 
 //Do I need the individual functions or can they just be part of the operate function e.g. return x*x, x+x...
@@ -124,14 +124,15 @@ console.log("Opening array check" + evaluationArray)
       console.log("Something in memory")
       //First I want to calculate the value so far
       evaluationArray[1] = +displayValue.join("")
-      prevOperator = operator;
+      evaluationArray[3] = operator;
       console.log(evaluationArray)
-      console.log(operator, prevOperator)
-      result = operate(prevOperator, evaluationArray[0], evaluationArray[1])
+      console.log(operator, evaluationArray[3])
+      result = operate(evaluationArray[3], evaluationArray[0], evaluationArray[1])
       display.textContent = result
       console.log(result)
       evaluationArray[0] = result
       console.log(evaluationArray)
+      console.log("Display value" + displayValue)
 
 
       //Clear the display array but keep prev value on screen
