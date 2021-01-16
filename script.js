@@ -100,6 +100,7 @@ console.log("Opening array check" + evaluationArray)
     //Set the operator to the clicked button
     if(event.target.id === "add" || event.target.id === "subtract" ||event.target.id === "multiply" ||event.target.id === "divide") {
     operator = event.target.id;
+    console.log("operator set to " + operator)
    
 
     //Give the clicked button clicked status
@@ -124,6 +125,7 @@ console.log("Opening array check" + evaluationArray)
       console.log("Something in memory")
       //First I want to calculate the value so far
       evaluationArray[1] = +displayValue.join("")
+      
       evaluationArray[3] = operator;
       console.log(evaluationArray)
       console.log(operator, evaluationArray[3])
